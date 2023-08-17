@@ -11,7 +11,8 @@ val color2 = Colors.WHITESMOKE
 
 suspend fun main() {
     Korge(
-        windowSize = Size(512, 512), backgroundColor = color1,
+        title = "resolution test",
+        windowSize = Size(2048, 2048), backgroundColor = color1,
         displayMode = KorgeDisplayMode(
             scaleMode = ScaleMode.SHOW_ALL,
             scaleAnchor = Anchor.TOP_LEFT,
