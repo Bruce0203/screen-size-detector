@@ -5,6 +5,8 @@ import korlibs.image.color.*
 import korlibs.image.text.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import korlibs.math.geom.min
+import kotlin.math.*
 
 val color1 = Colors["#2b2b2b"]
 val color2 = Colors.WHITESMOKE
@@ -12,9 +14,9 @@ val color2 = Colors.WHITESMOKE
 suspend fun main() {
     Korge(
         title = "resolution test",
-        windowSize = Size(1280, 720), backgroundColor = color1,
+        windowSize = Size(512, 512), backgroundColor = color1,
         displayMode = KorgeDisplayMode(
-            scaleMode = ScaleMode.SHOW_ALL,
+            scaleMode = ScaleMode.NO_SCALE,
             scaleAnchor = Anchor.TOP_LEFT,
             clipBorders = false
         )
@@ -29,39 +31,43 @@ class MyScene : Scene() {
         fixedSizeContainer(size) {
             val padding = 20f
             val container = fixedSizeContainer(size).centerOnStage()
+            val originTextSize = 80f
             val text = container.text(
-                "", textSize = 40f, alignment = TextAlignment.MIDDLE_CENTER, color = color2
+                "", textSize = originTextSize, alignment = TextAlignment.MIDDLE_CENTER, color = color2
             ).zIndex(5).centerOnStage()
             val top = container
-                .solidRect(Size(width-padding, padding), color2)
+                .solidRect(Size(width - padding, padding), color2)
                 .positionY(padding)
             val bottom = container
-                .solidRect(Size(width-padding, padding), color2)
-                .positionY(height-padding*2)
+                .solidRect(Size(width - padding, padding), color2)
+                .positionY(height - padding * 2)
             val left = container
-                .solidRect(Size(padding, height-padding), color2)
+                .solidRect(Size(padding, height - padding), color2)
                 .positionX(padding)
             val right = container
-                .solidRect(Size(padding, height-padding), color2)
-                .positionX(width-padding*2)
+                .solidRect(Size(padding, height - padding), color2)
+                .positionX(width - padding * 2)
 
             onStageResized { width, height ->
                 container.size(width, height)
-                top.width = width.toFloat() - padding*2
+                top.width = width.toFloat() - padding * 2
                 top.positionY(padding)
                 top.positionX(padding)
-                bottom.width = width.toFloat() - padding*2
-                bottom.positionY(height.toFloat() - padding*2)
+                bottom.width = width.toFloat() - padding * 2
+                bottom.positionY(height.toFloat() - padding * 2)
                 bottom.positionX(padding)
-                left.height = height.toFloat() - padding*2
+                left.height = height.toFloat() - padding * 2
                 left.positionX(padding)
                 left.positionY(padding)
-                right.height = height.toFloat() - padding*2
-                right.positionX(width.toFloat() - padding*2)
+                right.height = height.toFloat() - padding * 2
+                right.positionX(width.toFloat() - padding * 2)
                 right.positionY(padding)
 
                 text.text = "${width}x${height}"
                 text.centerOn(container)
+//                text.textSize = originTextSize.times(
+//                    if (width == sceneWidth) height / width.toDouble() else height / width.toDouble()
+//                        ).toFloat()
             }
         }
 
