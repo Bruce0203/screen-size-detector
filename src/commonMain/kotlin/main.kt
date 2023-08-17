@@ -12,7 +12,7 @@ val color2 = Colors.WHITESMOKE
 suspend fun main() {
     Korge(
         title = "resolution test",
-        windowSize = Size(2048, 2048), backgroundColor = color1,
+        windowSize = Size(1280, 720), backgroundColor = color1,
         displayMode = KorgeDisplayMode(
             scaleMode = ScaleMode.SHOW_ALL,
             scaleAnchor = Anchor.TOP_LEFT,
@@ -20,18 +20,18 @@ suspend fun main() {
         )
     ) {
         val sceneContainer = sceneContainer()
-        sceneContainer.changeTo({ MyScene() })
+        sceneContainer.changeTo { MyScene() }
     }
 }
 
 class MyScene : Scene() {
 	override suspend fun SContainer.sceneMain() {
         fixedSizeContainer(size) {
-            val text = text(
-                "", textSize = 25f, alignment = TextAlignment.MIDDLE_CENTER, color = color2
-            ).zIndex(5).centerOnStage()
-            var padding = 20f
+            val padding = 20f
             val container = fixedSizeContainer(size).centerOnStage()
+            val text = container.text(
+                "", textSize = 40f, alignment = TextAlignment.MIDDLE_CENTER, color = color2
+            ).zIndex(5).centerOnStage()
             val top = container
                 .solidRect(Size(width-padding, padding), color2)
                 .positionY(padding)
@@ -46,7 +46,7 @@ class MyScene : Scene() {
                 .positionX(width-padding*2)
 
             onStageResized { width, height ->
-//                container.size(width, height)
+                container.size(width, height)
                 top.width = width.toFloat() - padding*2
                 top.positionY(padding)
                 top.positionX(padding)
@@ -61,7 +61,7 @@ class MyScene : Scene() {
                 right.positionY(padding)
 
                 text.text = "${width}x${height}"
-                text.centerOnStage()
+                text.centerOn(container)
             }
         }
 
